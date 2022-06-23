@@ -1,18 +1,18 @@
 package edu.javagroup.seabattle.constants;
 
-public interface Constants {
+public class Constants {
 
-    int[] LOCALHOST = {127, 0, 0, 1};
-    String ENEMY_PROTOCOL = "http";
-    String ENEMY_IP_ADDRESS = "enemyIpAddress";
-    String ENEMY_PORT = "8080";
-    String VERTICAL_COORDINATE = "ABCDEFGHIJ";
-    String DECK = "deck";
-    String BUTTON_PREFIX = "jButton";
-    String MINE = "M";
-    String ENEMY = "E";
-    String M_BUTTON_PREFIX = BUTTON_PREFIX.concat(MINE);
-    String E_BUTTON_PREFIX = BUTTON_PREFIX.concat(ENEMY);
-    String BUTTON_POSTFIX = "ActionPerformed";
+    public static final int[] LOCALHOST = {127, 0, 0, 1};
+    public static final String ENEMY_PROTOCOL = "http";
+    public static final String ENEMY_IP_ADDRESS = "enemyIpAddress";
+    public static final String ENEMY_PORT = "8080";
+    public static final String VERTICAL_COORDINATE = "ABCDEFGHIJ";
+    public static final String DECK = "deck";
+    private static final String BUTTON_PREFIX = "jButton";
+    public static final String MINE = "M";
+    public static final String ENEMY = "E";
+    public static final String M_BUTTON_PREFIX = BUTTON_PREFIX.concat(MINE);
+    public static final String E_BUTTON_PREFIX = BUTTON_PREFIX.concat(ENEMY);
+    public static final String BUTTON_POSTFIX = "ActionPerformed";
 
 }
