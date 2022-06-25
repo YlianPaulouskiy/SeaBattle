@@ -33,6 +33,7 @@ public class PointServiceImpl implements edu.javagroup.seabattle.service.PointSe
         }
     }
 
+    
     @Override
     public boolean setSidePoint(String side, char row, int col, int value) {
 
