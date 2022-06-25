@@ -11,7 +11,7 @@ import edu.javagroup.seabattle.util.StringUtils;
 import org.springframework.stereotype.Component;
 
 import javax.swing.*;
-import java.util.Map;
+
 
 @Component
 public class PointServiceImpl implements edu.javagroup.seabattle.service.PointService {
@@ -22,6 +22,8 @@ public class PointServiceImpl implements edu.javagroup.seabattle.service.PointSe
         this.panelServiceImpl = panelServiceImpl;
     }
 
+
+    // FIXME: 26.06.2022
     @Override
     public void setShipPoint(char row, int col) {
         if (isClearPoint(row, col)) {
@@ -65,6 +67,7 @@ public class PointServiceImpl implements edu.javagroup.seabattle.service.PointSe
         return false;
     }
 
+    // FIXME: 26.06.2022
 
     public void addShipPoint(char row, int col) {
         try {
