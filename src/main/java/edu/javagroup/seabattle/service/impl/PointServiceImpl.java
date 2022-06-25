@@ -2,6 +2,7 @@ package edu.javagroup.seabattle.service.impl;
 
 
 import edu.javagroup.seabattle.constants.Constants;
+import edu.javagroup.seabattle.exception.SideNotFoundException;
 import edu.javagroup.seabattle.model.HorizontalLine;
 import edu.javagroup.seabattle.model.PointElement;
 import edu.javagroup.seabattle.singleton.*;
@@ -10,6 +11,7 @@ import edu.javagroup.seabattle.util.StringUtils;
 import org.springframework.stereotype.Component;
 
 import javax.swing.*;
+import java.util.Map;
 
 @Component
 public class PointServiceImpl implements edu.javagroup.seabattle.service.PointService {
@@ -33,13 +35,14 @@ public class PointServiceImpl implements edu.javagroup.seabattle.service.PointSe
     public boolean setSidePoint(String side, char row, int col, int value) {
 
         if (side.equals(Constants.MINE)) {
-           setMineSidePoint(row, col, value);
+            setMineSidePoint(row, col, value);
             return true;
         } else if (side.equals(Constants.ENEMY)) {
             setEnemySidePoint(row, col, value);
             return true;
+        } else {
+            throw new SideNotFoundException();
         }
-        return false;
     }
 
 
@@ -64,18 +67,25 @@ public class PointServiceImpl implements edu.javagroup.seabattle.service.PointSe
 
 
     public void addShipPoint(char row, int col) {
-        if (!ForbiddenCellsSingleton.instance(null).getForbiddenCellsMap().get(row + NumberUtils.currentNumber(col))) {
-            if (!panelServiceImpl.isFullMinePanel()) {
-                if (setSidePoint(Constants.MINE, row, col, 1)) {
-                    setForbiddenCells();
+        try {
+            if (!ForbiddenCellsSingleton.
+                    instance(null).
+                    getForbiddenCellsMap().
+                    get(row + NumberUtils.currentNumber(col))) {
+                if (!panelServiceImpl.isFullMinePanel()) {
+                    if (setSidePoint(Constants.MINE, row, col, 1)) {
+                        setForbiddenCells();
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Нельзя использовать эту ячейку", "Внимание!", JOptionPane.WARNING_MESSAGE);
+                    }
                 } else {
-                    JOptionPane.showMessageDialog(null, "Нельзя использовать эту ячейку", "Внимание!", JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Уже занято допустимое количество ячеек", "Внимание!", JOptionPane.WARNING_MESSAGE);
                 }
             } else {
-                JOptionPane.showMessageDialog(null, "Уже занято допустимое количество ячеек", "Внимание!", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Не удалось использовать эту ячейку", "Внимание!", JOptionPane.WARNING_MESSAGE);
             }
-        } else {
-            JOptionPane.showMessageDialog(null, "Не удалось использовать эту ячейку", "Внимание!", JOptionPane.WARNING_MESSAGE);
+        } catch (NullPointerException exception) {
+            exception.printStackTrace();
         }
     }
 
@@ -87,7 +97,9 @@ public class PointServiceImpl implements edu.javagroup.seabattle.service.PointSe
 
 
     public boolean isOccupiedCell(char row, int col, int value) {
-        
+        return MinePanelSingleton.instance(null).getPanel().stream().flatMap(horizontalLine -> horizontalLine.getPointElementList().stream().
+                filter(pointElement -> horizontalLine.getRow() == row && pointElement.getCol() == col)).
+                anyMatch(pointElement -> pointElement.getValue() == value);
     }
 
 

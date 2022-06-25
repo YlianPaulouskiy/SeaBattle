@@ -1,6 +1,7 @@
 package edu.javagroup.seabattle.service;
 
 import edu.javagroup.seabattle.common.utils.CommonService;
+import edu.javagroup.seabattle.common.utils.impl.CommonServiceImpl;
 import edu.javagroup.seabattle.constants.Constants;
 import edu.javagroup.seabattle.model.HorizontalLine;
 import edu.javagroup.seabattle.model.PointElement;

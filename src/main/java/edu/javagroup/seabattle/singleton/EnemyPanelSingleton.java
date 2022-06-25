@@ -1,6 +1,7 @@
 package edu.javagroup.seabattle.singleton;
 
 import edu.javagroup.seabattle.model.HorizontalLine;
+import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -9,6 +10,7 @@ import java.util.List;
 public class EnemyPanelSingleton {
 
     private static EnemyPanelSingleton instance;
+    @Getter
     private final List<HorizontalLine> panel;
 
     private EnemyPanelSingleton(List<HorizontalLine> panel) {
@@ -24,10 +26,6 @@ public class EnemyPanelSingleton {
             instance = new EnemyPanelSingleton(panel);
         }
         return instance;
-    }
-
-    public List<HorizontalLine> getPanel() {
-        return panel;
     }
 
 }
