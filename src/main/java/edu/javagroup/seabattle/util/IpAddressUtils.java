@@ -9,7 +9,7 @@ public class IpAddressUtils {
 
     public static boolean isIpAddress(String ip) {
         try {
-            if (StringUtils.isEmpty(ip) || ip.startsWith(".") || ip.endsWith(".")) return false;
+            if (StringUtils.isEmpty(ip) || ip.startsWith(".") || ip.endsWith(".") || ip.length() > 15) return false;
             int[] ipFragments = Arrays.stream(ip.split("\\.")).mapToInt(Integer::parseInt).toArray();
             if (ipFragments[0] == 0 || ipFragments.length != 4) return false;
             for (int fragment : ipFragments) {

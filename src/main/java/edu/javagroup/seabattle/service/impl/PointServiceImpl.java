@@ -1,4 +1,4 @@
-package edu.javagroup.seabattle.common.utils.impl;
+package edu.javagroup.seabattle.service.impl;
 
 
 import edu.javagroup.seabattle.constants.Constants;
@@ -7,15 +7,17 @@ import edu.javagroup.seabattle.model.PointElement;
 import edu.javagroup.seabattle.singleton.*;
 import edu.javagroup.seabattle.util.NumberUtils;
 import edu.javagroup.seabattle.util.StringUtils;
+import org.springframework.stereotype.Component;
 
 import javax.swing.*;
 
-public class PointService implements edu.javagroup.seabattle.service.PointService {
+@Component
+public class PointServiceImpl implements edu.javagroup.seabattle.service.PointService {
 
-    private final PanelService panelService;
+    private final PanelServiceImpl panelServiceImpl;
 
-    public PointService(PanelService panelService) {
-        this.panelService = panelService;
+    public PointServiceImpl(PanelServiceImpl panelServiceImpl) {
+        this.panelServiceImpl = panelServiceImpl;
     }
 
     @Override
@@ -63,7 +65,7 @@ public class PointService implements edu.javagroup.seabattle.service.PointServic
 
     public void addShipPoint(char row, int col) {
         if (!ForbiddenCellsSingleton.instance(null).getForbiddenCellsMap().get(row + NumberUtils.currentNumber(col))) {
-            if (!panelService.isFullMinePanel()) {
+            if (!panelServiceImpl.isFullMinePanel()) {
                 if (setSidePoint(Constants.MINE, row, col, 1)) {
                     setForbiddenCells();
                 } else {
@@ -85,12 +87,11 @@ public class PointService implements edu.javagroup.seabattle.service.PointServic
 
 
     public boolean isOccupiedCell(char row, int col, int value) {
-        return ShipStorageSingleton.instance(null).getShipMap().
-                get(row + NumberUtils.currentNumber(col)) == value;
+        
     }
 
 
-    private void setForbiddenCells() {
+    public void setForbiddenCells() {
         ForbiddenCellsSingleton.instance(null).getForbiddenCellsMap().clear();
 
         for (HorizontalLine horizontalLine : MinePanelSingleton.instance(null).getPanel()) {

@@ -4,6 +4,7 @@
 //import edu.javagroup.seabattle.constants.Constants;
 //import edu.javagroup.seabattle.service.impl.PanelServiceImpl;
 //import edu.javagroup.seabattle.singleton.EnemyPanelSingleton;
+//import edu.javagroup.seabattle.singleton.ImReadySingleton;
 //import edu.javagroup.seabattle.singleton.MinePanelSingleton;
 //import org.junit.jupiter.api.Test;
 //import org.springframework.beans.factory.annotation.Autowired;
@@ -19,10 +20,10 @@
 // * test -> edu.javagroup.seabattle.common.utils.impl.CommonServiceImpl
 // *
 // * @author kaa
-// * @version 1.5
+// * @version 1.6
 // */
 //@SpringBootTest
-//public class PanelServiceTest {
+//public class PanelServiceImplTest {
 //
 //    @Autowired
 //    private PanelService panelService;
@@ -58,11 +59,14 @@
 //
 //    @Test
 //    void howMuchIsLeftTest() {
+//
+//        ImReadySingleton.instance(true);
+//
 //        MinePanelSingleton.instance(commonService.getPanel00());
-//        assertThat(panelService.howMuchIsLeft(Constants.MINE) == 0).isTrue();
+//        assertThat(panelService.howMuchIsLeft(Constants.MINE) == 20).isTrue();
 //
 //        MinePanelSingleton.instance(commonService.getPanel19());
-//        assertThat(panelService.howMuchIsLeft(Constants.MINE) == 19).isTrue();
+//        assertThat(panelService.howMuchIsLeft(Constants.MINE) == 20).isTrue();
 //
 //        MinePanelSingleton.instance(commonService.getPanel20());
 //        assertThat(panelService.howMuchIsLeft(Constants.MINE) == 20).isTrue();
