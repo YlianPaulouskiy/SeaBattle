@@ -13,17 +13,17 @@ import org.springframework.stereotype.Component;
 import javax.swing.*;
 
 
+
 @Component
 public class PointServiceImpl implements edu.javagroup.seabattle.service.PointService {
 
-    private final PanelServiceImpl panelServiceImpl;
+    private final PanelServiceImpl panelService;
 
-    public PointServiceImpl(PanelServiceImpl panelServiceImpl) {
-        this.panelServiceImpl = panelServiceImpl;
+    public PointServiceImpl(PanelServiceImpl panelService) {
+        this.panelService = panelService;
     }
 
 
-    // FIXME: 26.06.2022
     @Override
     public void setShipPoint(char row, int col) {
         if (isClearPoint(row, col)) {
@@ -33,7 +33,7 @@ public class PointServiceImpl implements edu.javagroup.seabattle.service.PointSe
         }
     }
 
-    
+
     @Override
     public boolean setSidePoint(String side, char row, int col, int value) {
 
@@ -68,28 +68,24 @@ public class PointServiceImpl implements edu.javagroup.seabattle.service.PointSe
         return false;
     }
 
-    // FIXME: 26.06.2022
 
     public void addShipPoint(char row, int col) {
-        try {
-            if (!ForbiddenCellsSingleton.
-                    instance(null).
-                    getForbiddenCellsMap().
-                    get(row + NumberUtils.currentNumber(col))) {
-                if (!panelServiceImpl.isFullMinePanel()) {
-                    if (setSidePoint(Constants.MINE, row, col, 1)) {
-                        setForbiddenCells();
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Нельзя использовать эту ячейку", "Внимание!", JOptionPane.WARNING_MESSAGE);
-                    }
+
+        if (!ForbiddenCellsSingleton
+                .instance(null)
+                .getForbiddenCellsMap()
+                .getOrDefault(row + NumberUtils.currentNumber(col), false) ) {
+            if (!panelService.isFullMinePanel()) {
+                if (setSidePoint(Constants.MINE, row, col, 1)) {
+                    setForbiddenCells();
                 } else {
-                    JOptionPane.showMessageDialog(null, "Уже занято допустимое количество ячеек", "Внимание!", JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Нельзя использовать эту ячейку", "Внимание!", JOptionPane.WARNING_MESSAGE);
                 }
             } else {
-                JOptionPane.showMessageDialog(null, "Не удалось использовать эту ячейку", "Внимание!", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Уже занято допустимое количество ячеек", "Внимание!", JOptionPane.WARNING_MESSAGE);
             }
-        } catch (NullPointerException exception) {
-            exception.printStackTrace();
+        } else {
+            JOptionPane.showMessageDialog(null, "Не удалось использовать эту ячейку", "Внимание!", JOptionPane.WARNING_MESSAGE);
         }
     }
 
@@ -101,9 +97,9 @@ public class PointServiceImpl implements edu.javagroup.seabattle.service.PointSe
 
 
     public boolean isOccupiedCell(char row, int col, int value) {
-        return MinePanelSingleton.instance(null).getPanel().stream().flatMap(horizontalLine -> horizontalLine.getPointElementList().stream().
-                filter(pointElement -> horizontalLine.getRow() == row && pointElement.getCol() == col)).
-                anyMatch(pointElement -> pointElement.getValue() == value);
+        return MinePanelSingleton.instance(null).getPanel().stream().flatMap(horizontalLine -> horizontalLine.getPointElementList().stream()
+                .filter(pointElement -> horizontalLine.getRow() == row && pointElement.getCol() == col))
+                .anyMatch(pointElement -> pointElement.getValue() == value);
     }
 
 
@@ -140,16 +136,16 @@ public class PointServiceImpl implements edu.javagroup.seabattle.service.PointSe
 
 
     private void setMineSidePoint(char row, int col, int value) {
-        MinePanelSingleton.instance(null).getPanel().stream().flatMap(horizontalLine -> horizontalLine.getPointElementList().stream().
-                filter(pointElement -> horizontalLine.getRow() == row && pointElement.getCol() == col)).
-                forEach(pointElement -> pointElement.setValue(value));
+        MinePanelSingleton.instance(null).getPanel().stream().flatMap(horizontalLine -> horizontalLine.getPointElementList().stream()
+                .filter(pointElement -> horizontalLine.getRow() == row && pointElement.getCol() == col))
+                .forEach(pointElement -> pointElement.setValue(value));
     }
 
 
     private void setEnemySidePoint(char row, int col, int value) {
-        EnemyPanelSingleton.instance(null).getPanel().stream().flatMap(horizontalLine -> horizontalLine.getPointElementList().stream().
-                filter(pointElement -> horizontalLine.getRow() == row && pointElement.getCol() == col)).
-                forEach(pointElement -> pointElement.setValue(value));
+        EnemyPanelSingleton.instance(null).getPanel().stream().flatMap(horizontalLine -> horizontalLine.getPointElementList().stream()
+                .filter(pointElement -> horizontalLine.getRow() == row && pointElement.getCol() == col))
+                .forEach(pointElement -> pointElement.setValue(value));
     }
 
 }
