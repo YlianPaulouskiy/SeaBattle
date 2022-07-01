@@ -1,10 +1,25 @@
 package edu.javagroup.seabattle.service.impl;
 
+import edu.javagroup.seabattle.model.PointElement;
+import edu.javagroup.seabattle.model.ShipPoint;
 import edu.javagroup.seabattle.service.GameService;
+import edu.javagroup.seabattle.service.PanelService;
+import edu.javagroup.seabattle.service.PointService;
+import edu.javagroup.seabattle.service.ShipService;
 import org.springframework.stereotype.Component;
 
 @Component
 public class GameServiceImpl implements GameService {
+
+    private final PanelService panelService;
+    private final PointService pointService;
+    private final ShipService shipService;
+
+    public GameServiceImpl(PanelService panelService, PointService pointService, ShipService shipService) {
+        this.panelService = panelService;
+        this.pointService = pointService;
+        this.shipService = shipService;
+    }
 
     @Override
     public boolean imReady() {
@@ -55,4 +70,6 @@ public class GameServiceImpl implements GameService {
     public boolean checkEndGame(String side) {
         return false;
     }
+
+
 }
