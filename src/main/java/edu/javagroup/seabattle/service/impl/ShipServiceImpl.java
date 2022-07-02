@@ -37,10 +37,14 @@ public class ShipServiceImpl implements edu.javagroup.seabattle.service.ShipServ
     @Override
     public int checkShipCount(int deckCount) {
         getCoordinateList(MinePanelSingleton.instance(null).getPanel());
-        return findShipDeck(deckCount);
+        if (!ImReadySingleton.instance(null).imReady()) {
+            return findShipDeck(deckCount);
+        } else {
+            return findShipDeck(deckCount, 2); // 2 - корабль подбит
+        }
     }
 
-    public void getCoordinateList(List<HorizontalLine> horizontalLineList) {
+    private void getCoordinateList(List<HorizontalLine> horizontalLineList) {
         coordinateList = new ArrayList<>(220);
 
         coordinateList.addAll(getHorizontalCoordinateList(horizontalLineList));
@@ -55,7 +59,7 @@ public class ShipServiceImpl implements edu.javagroup.seabattle.service.ShipServ
         Collections.sort(coordinateList);
     }
 
-    public List<ShipPoint> getHorizontalCoordinateList(List<HorizontalLine> horizontalLineList) {
+    private List<ShipPoint> getHorizontalCoordinateList(List<HorizontalLine> horizontalLineList) {
         List<ShipPoint> shipPoints = new ArrayList<>(110);
         int coordinateCount = 1;
         for (HorizontalLine horizontalLine : horizontalLineList) {
@@ -63,13 +67,13 @@ public class ShipServiceImpl implements edu.javagroup.seabattle.service.ShipServ
                 shipPoints.add(new ShipPoint(coordinateCount, pointElement.getValue()));
                 coordinateCount++;
             }
-            shipPoints.add(new ShipPoint(coordinateCount, 0));
+            shipPoints.add(new ShipPoint(coordinateCount,0));
             coordinateCount++;
         }
         return shipPoints;
     }
 
-    public List<ShipPoint> getVerticalCoordinateList(List<HorizontalLine> horizontalLineList) {
+    private List<ShipPoint> getVerticalCoordinateList(List<HorizontalLine> horizontalLineList) {
         List<ShipPoint> shipPoints = new ArrayList<>(110);
         int coordinateCount = 111;
         for (int horizontalCount = 0; horizontalCount < 10; horizontalCount++) {
@@ -85,7 +89,21 @@ public class ShipServiceImpl implements edu.javagroup.seabattle.service.ShipServ
         return shipPoints;
     }
 
-    public int findShipDeck(int sizeDeck) {
+    private int findShipDeck(int sizeDeck, int splitValue) {
+        int shipCount = 0;
+        StringBuilder values = new StringBuilder();
+        coordinateList.forEach(shipPoint -> values.append(shipPoint.getValue()));
+        /* оставляем нужные нам ячейки
+            0 - пустая, 1 - палуба установлена, 2 - палуба подбита, 3 - промах
+        */
+        for (String ship : values.toString().split("[^"+ splitValue +"+]")) {
+            shipCount = (sizeDeck == ship.length()) ? ++shipCount : shipCount;
+        }
+        return (sizeDeck == 1 ? shipCount / 5 : shipCount);
+    }
+
+
+    private int findShipDeck(int sizeDeck) {
         int shipCount = 0;
         StringBuilder values = new StringBuilder();
         coordinateList.forEach(shipPoint -> values.append(shipPoint.getValue()));
@@ -94,6 +112,4 @@ public class ShipServiceImpl implements edu.javagroup.seabattle.service.ShipServ
         }
         return (sizeDeck == 1 ? shipCount / 5 : shipCount);
     }
-
-
 }
