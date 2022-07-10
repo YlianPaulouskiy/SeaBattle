@@ -12,18 +12,18 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 /*
  * закомментировать после выполнения задач и тестов
  */
-import org.springframework.boot.SpringApplication;
-
-import java.util.Arrays;
+//import org.springframework.boot.SpringApplication;
+//
+//import java.util.Arrays;
 
 /*
  * убрать комментарий после выполнения задач и тестов
  */
-//import edu.javagroup.seabattle.frame.MainFrame;
-//import org.springframework.boot.CommandLineRunner;
-//import org.springframework.boot.builder.SpringApplicationBuilder;
-//import org.springframework.context.ConfigurableApplicationContext;
-//import org.springframework.context.annotation.Bean;
+import edu.javagroup.seabattle.frame.MainFrame;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.annotation.Bean;
 
 /**
  * @author kaa
@@ -40,24 +40,19 @@ public class App {
 //        SpringApplication.run(App.class, args);
 
 
-
-
-
-
-
         /*
          * убрать комментарий после выполнения задач и тестов
          */
-//        ConfigurableApplicationContext context = new SpringApplicationBuilder(App.class).headless(false).run(args);
-//        MainFrame mainFrame = context.getBean(MainFrame.class);
-//        mainFrame.setVisible(true);
+        ConfigurableApplicationContext context = new SpringApplicationBuilder(App.class).headless(false).run(args);
+        MainFrame mainFrame = context.getBean(MainFrame.class);
+        mainFrame.setVisible(true);
     }
 
     /*
      * убрать комментарий после выполнения задач и тестов
      */
-//    @Bean
-//    public CommandLineRunner commandLineRunner() {
-//        return new AppInitializer();
-//    }
+    @Bean
+    public CommandLineRunner commandLineRunner() {
+        return new AppInitializer();
+    }
 }

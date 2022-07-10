@@ -117,13 +117,13 @@ public class PointServiceImpl implements edu.javagroup.seabattle.service.PointSe
     }
 
 
-    private void selectedCell(char row, int col) {
+    public void selectedCell(char row, int col) {
         ForbiddenCellsSingleton.instance(null).getForbiddenCellsMap().
                 put(row + NumberUtils.currentNumber(col), true);
     }
 
 
-    private void invalidCells(char row, int col) {
+    public void invalidCells(char row, int col) {
         ForbiddenCellsSingleton.instance(null).getForbiddenCellsMap().
                 put(StringUtils.letterBefore(row) + NumberUtils.numberBefore(col), true);
         ForbiddenCellsSingleton.instance(null).getForbiddenCellsMap().

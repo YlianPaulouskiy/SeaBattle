@@ -4,5 +4,6 @@ public interface ShipService {
 
     boolean checkShipCount();
     int checkShipCount(int deckCount);
+    void autoSetShipPoints();
 
 }

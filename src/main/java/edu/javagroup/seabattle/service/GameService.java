@@ -12,4 +12,5 @@ public interface GameService {
     int checkShipCount(int deckCount);
     int howMuchIsLeft(String side);
     boolean checkEndGame(String side);
+    void autoSetShipPoints();
 }

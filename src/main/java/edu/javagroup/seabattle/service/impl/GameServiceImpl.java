@@ -95,5 +95,8 @@ public class GameServiceImpl implements GameService {
         return panelService.checkEndGame(side);
     }
 
-
+    @Override
+    public void autoSetShipPoints() {
+        shipService.autoSetShipPoints();
+    }
 }
