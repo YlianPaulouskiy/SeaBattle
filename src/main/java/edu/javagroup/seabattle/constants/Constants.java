@@ -1,5 +1,11 @@
 package edu.javagroup.seabattle.constants;
 
+
+/**
+ * Класс хранит необходимые констатнты, видимые для всего проекта
+ *
+ * @author Павловский Юлиан
+ */
 public class Constants {
 
     public static final int[] LOCALHOST = {127, 0, 0, 1};

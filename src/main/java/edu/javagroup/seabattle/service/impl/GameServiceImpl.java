@@ -1,6 +1,5 @@
 package edu.javagroup.seabattle.service.impl;
 
-import edu.javagroup.seabattle.constants.Constants;
 import edu.javagroup.seabattle.service.GameService;
 import edu.javagroup.seabattle.service.PanelService;
 import edu.javagroup.seabattle.service.PointService;
@@ -15,14 +14,39 @@ import org.springframework.stereotype.Component;
 import javax.swing.*;
 import java.util.HashMap;
 
+import static edu.javagroup.seabattle.constants.Constants.ENEMY_IP_ADDRESS;
+
+/**
+ * Класс реализует интерфейс GameService
+ */
 @Component
 public class GameServiceImpl implements GameService {
 
+    /**
+     * Переменная класса PanelService, для вызова методов этого класса
+     */
     private final PanelService panelService;
+
+    /**
+     * Переменная класса PointService, для вызова методов этого класса
+     */
     private final PointService pointService;
+
+    /**
+     * Переменная класса ShipService, для вызова методов этого класса
+     */
     private final ShipService shipService;
 
-    public GameServiceImpl(PanelService panelService, PointService pointService, ShipService shipService) {
+    /**
+     * Конструктор со всеми параметрами, который устанавливает значения
+     * в переменные класса
+     *
+     * @param panelService переменная PanelService
+     * @param pointService переменная PointService
+     * @param shipService  переменная ShipService
+     */
+    public GameServiceImpl(PanelService panelService, PointService pointService,
+                           ShipService shipService) {
         this.panelService = panelService;
         this.pointService = pointService;
         this.shipService = shipService;
@@ -32,27 +56,35 @@ public class GameServiceImpl implements GameService {
     public boolean imReady() {
         if (isFullMinePanel()) {
             if (!checkShipCount()) {
-                JOptionPane.showMessageDialog(null, "Корабли расставлены неправильно", "Внимание!", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(null,
+                        "Корабли расставлены неправильно", "Внимание!",
+                        JOptionPane.WARNING_MESSAGE);
             } else {
-                String ip = SettingsSingleton.instance(null).getSettingsByKey(Constants.ENEMY_IP_ADDRESS);
+                String ip = SettingsSingleton.instance(null).getSettingsByKey(ENEMY_IP_ADDRESS);
                 if (StringUtils.isNotEmpty(ip)) {
                     ImReadySingleton.instance(true);
                     ForbiddenCellsSingleton.instance(new HashMap<>());
                 } else {
-                    JOptionPane.showMessageDialog(null, "Не указан ip-address врага", "Внимание!", JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(null,
+                            "Не указан ip-address врага", "Внимание!",
+                            JOptionPane.WARNING_MESSAGE);
                 }
             }
         } else {
-            JOptionPane.showMessageDialog(null, "Еще не все корабли расставлены", "Внимание!", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Еще не все корабли расставлены",
+                    "Внимание!", JOptionPane.WARNING_MESSAGE);
         }
-        return false;
+        return ImReadySingleton.instance(null).imReady();
     }
 
     @Override
     public boolean enemyReady() {
         EnemyReadySingleton.instance(true);
-        boolean imReady = JOptionPane.showConfirmDialog(null, "Клятый враг спрашивает, готов ли ты быть поверженным?", "Окно подтверждения", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE) == 0;
-        return imReady() && imReady;
+        boolean enemyReady = JOptionPane.showConfirmDialog(null,
+                "Клятый враг спрашивает, готов ли ты быть поверженным?",
+                "Окно подтверждения", JOptionPane.YES_NO_OPTION,
+                JOptionPane.WARNING_MESSAGE) == 0;
+        return imReady() && enemyReady;
     }
 
     @Override
@@ -81,11 +113,6 @@ public class GameServiceImpl implements GameService {
     }
 
     @Override
-    public int checkShipCount(int deckCount) {
-        return shipService.checkShipCount(deckCount);
-    }
-
-    @Override
     public int howMuchIsLeft(String side) {
         return panelService.howMuchIsLeft(side);
     }
@@ -99,4 +126,5 @@ public class GameServiceImpl implements GameService {
     public void autoSetShipPoints() {
         shipService.autoSetShipPoints();
     }
+
 }

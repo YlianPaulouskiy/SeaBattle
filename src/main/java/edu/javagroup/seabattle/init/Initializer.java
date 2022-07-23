@@ -9,12 +9,26 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Класс содержит методы, котоые устанавливают начальное
+ * состояние для  синглетонов
+ *
+ * @author Павловский Юлиан
+ */
 public class Initializer {
+
+    /**
+     * Вызывает метод initPanels(), тем самым
+     * инициализируя начальное состояние синглетонов
+     */
 
     public void init() {
         initPanels();
     }
 
+    /**
+     * Устанавливает начальные значения для синглетонов
+     */
     public void initPanels() {
 
         Map<String, Integer> shipStorageMap = new HashMap<>();

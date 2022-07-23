@@ -3,9 +3,17 @@ package edu.javagroup.seabattle.model;
 import edu.javagroup.seabattle.model.parent.ModelValue;
 import lombok.Getter;
 
+/**
+ * Класс хранит номер ячейки и её состояние
+ *
+ * @author Павловский Юлиан
+ */
 @Getter
-public class ShipPoint extends ModelValue implements Comparable<ShipPoint>{
+public class ShipPoint extends ModelValue implements Comparable<ShipPoint> {
 
+    /**
+     * Поле которое хранит номер ячейки
+     */
     private final int point;
 
     public ShipPoint(int point, int value) {

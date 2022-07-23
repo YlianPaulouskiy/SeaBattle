@@ -3844,7 +3844,6 @@ public class MainFrame extends javax.swing.JFrame {
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         gameService.autoSetShipPoints();
         MyStepSingleton.instance(true);
-        //JOptionPane.showMessageDialog(null, "Не реализовано", "упс", JOptionPane.INFORMATION_MESSAGE);
         repaintPanel(MINE);
     }//GEN-LAST:event_jButton3ActionPerformed
 
@@ -3857,16 +3856,20 @@ public class MainFrame extends javax.swing.JFrame {
 
     // начать игру
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        if (gameService.imReady()) {
-            if (enemyService.areYouReady()) {
-                repaintProgress();
+        if (gameService.checkShipCount()) {
+            if (gameService.imReady()) {
+                if (enemyService.areYouReady()) {
+                    repaintProgress();
+                }
             }
+        } else {
+            JOptionPane.showMessageDialog(null, "Карабли установленны не правильно!", "Внимание!", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_jButton5ActionPerformed
 
     // реакция на закрытие окна
     private void formWindowClosing(WindowEvent evt) {
-        //System.exit(0);
+//        System.exit(0);
     }
 
     //--- mine panel ---
